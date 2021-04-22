@@ -43,55 +43,46 @@ PlatformHookSerialPortInitialize (
   )
 {
   RETURN_STATUS         Status;
-  UINT32                DeviceVendor;
-  PCI_SERIAL_PARAMETER  *SerialParam;
-  SERIAL_PORT_INFO      SerialPortInfo;
+  //UINT32                DeviceVendor;
+  //PCI_SERIAL_PARAMETER  *SerialParam;
+  //SERIAL_PORT_INFO      SerialPortInfo;
 
-  Status = ParseSerialInfo (&SerialPortInfo);
-  if (RETURN_ERROR (Status)) {
-    return Status;
-  }
+  //Status = ParseSerialInfo (&SerialPortInfo);
+  //if (RETURN_ERROR (Status)) {
+  //  return Status;
+  //}
 
-  if (SerialPortInfo.Type == PLD_SERIAL_TYPE_MEMORY_MAPPED) {
-    Status = PcdSetBoolS (PcdSerialUseMmio, TRUE);
-  } else { //IO
+  //if (SerialPortInfo.Type == PLD_SERIAL_TYPE_MEMORY_MAPPED) {
+  //  Status = PcdSetBoolS (PcdSerialUseMmio, TRUE);
+  //} else { //IO
     Status = PcdSetBoolS (PcdSerialUseMmio, FALSE);
-  }
+  //}
   if (RETURN_ERROR (Status)) {
     return Status;
   }
-  Status = PcdSet64S (PcdSerialRegisterBase, SerialPortInfo.BaseAddr);
-  if (RETURN_ERROR (Status)) {
-    return Status;
-  }
-
-  Status = PcdSet32S (PcdSerialRegisterStride, SerialPortInfo.RegWidth);
+  Status = PcdSet64S (PcdSerialRegisterBase, 0x3F8);
   if (RETURN_ERROR (Status)) {
     return Status;
   }
 
-  Status = PcdSet32S (PcdSerialBaudRate, SerialPortInfo.Baud);
+  Status = PcdSet32S (PcdSerialRegisterStride, 1);
   if (RETURN_ERROR (Status)) {
     return Status;
   }
 
-  Status = PcdSet64S (PcdUartDefaultBaudRate, SerialPortInfo.Baud);
+  Status = PcdSet32S (PcdSerialBaudRate, 115200);
   if (RETURN_ERROR (Status)) {
     return Status;
   }
 
-  Status = PcdSet32S (PcdSerialClockRate, SerialPortInfo.InputHertz);
+  Status = PcdSet64S (PcdUartDefaultBaudRate, 115200);
   if (RETURN_ERROR (Status)) {
     return Status;
   }
 
-  if (SerialPortInfo.UartPciAddr >= 0x80000000) {
-    DeviceVendor = PciRead32 (SerialPortInfo.UartPciAddr & 0x0ffff000);
-    SerialParam  = PcdGetPtr(PcdPciSerialParameters);
-    SerialParam->VendorId  = (UINT16)DeviceVendor;
-    SerialParam->DeviceId  = DeviceVendor >> 16;
-    SerialParam->ClockRate = SerialPortInfo.InputHertz;
-    SerialParam->RegisterStride = (UINT8)SerialPortInfo.RegWidth;
+  Status = PcdSet32S (PcdSerialClockRate, 1843200);
+  if (RETURN_ERROR (Status)) {
+    return Status;
   }
 
   return RETURN_SUCCESS;

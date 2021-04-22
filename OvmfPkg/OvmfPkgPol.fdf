@@ -197,12 +197,12 @@ READ_STATUS        = TRUE
 READ_LOCK_CAP      = TRUE
 READ_LOCK_STATUS   = TRUE
 
-
-FILE FREEFORM = 86d53a55-b604-402e-94a4-ac7220dd5c7b {
+FILE DXE_CORE = 86d53a55-b604-402e-94a4-ac7220dd5c7b {
   SECTION GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF PROCESSING_REQUIRED = TRUE {
-    SECTION RAW = UPL.bin
+    SECTION PE32 = PayloadEntry.efi
   }
 }
+
 ################################################################################
 
 [Rule.Common.SEC]

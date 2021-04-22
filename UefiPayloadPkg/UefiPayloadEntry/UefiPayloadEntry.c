@@ -383,8 +383,10 @@ PayloadEntry (
   UINTN                         HobMemTop;
   EFI_PEI_HOB_POINTERS          Hob;
 
+  IoWrite8 (0x3f8, 'a');
   // Call constructor for all libraries
   ProcessLibraryConstructorList ();
+  IoWrite8 (0x3f8, 'b');
 
   DEBUG ((DEBUG_INFO, "GET_BOOTLOADER_PARAMETER() = 0x%lx\n", GET_BOOTLOADER_PARAMETER()));
   DEBUG ((DEBUG_INFO, "sizeof(UINTN) = 0x%x\n", sizeof(UINTN)));

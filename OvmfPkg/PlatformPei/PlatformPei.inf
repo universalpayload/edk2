@@ -49,7 +49,7 @@
 [Guids]
   gEfiMemoryTypeInformationGuid
   gEfiXenInfoGuid
-  gPldSerialPortInfoGuid
+#  gPldSerialPortInfoGuid
   gUefiAcpiBoardInfoGuid
 
 [LibraryClasses]

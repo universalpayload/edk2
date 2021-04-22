@@ -493,10 +493,12 @@ SerialPortInitialize (
   // Perform platform specific initialization required to enable use of the 16550 device
   // at the location specified by PcdSerialUseMmio and PcdSerialRegisterBase.
   //
+  IoWrite8 (0x3f8, '0');
   Status = PlatformHookSerialPortInitialize ();
   if (RETURN_ERROR (Status)) {
     return Status;
   }
+  IoWrite8 (0x3f8, '4');
 
   //
   // Calculate divisor for baud generator
@@ -514,6 +516,7 @@ SerialPortInitialize (
   if (SerialRegisterBase ==0) {
     return RETURN_DEVICE_ERROR;
   }
+  IoWrite8 (0x3f8, '5');
 
   //
   // See if the serial port is already initialized
@@ -537,8 +540,10 @@ SerialPortInitialize (
   // Wait for the serial port to be ready.
   // Verify that both the transmit FIFO and the shift register are empty.
   //
+  IoWrite8 (0x3f8, '1');
   while ((SerialPortReadRegister (SerialRegisterBase, R_UART_LSR) & (B_UART_LSR_TEMT | B_UART_LSR_TXRDY)) != (B_UART_LSR_TEMT | B_UART_LSR_TXRDY));
 
+  IoWrite8 (0x3f8, '2');
   //
   // Configure baud rate
   //

@@ -13,7 +13,7 @@
 #include <Library/PeiServicesLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MemoryAllocationLib.h>
-#include <Guid/SerialPortInfo.h>
+//#include <Guid/SerialPortInfo.h>
 #include <Guid/AcpiBoardInfoGuid.h>
 
 #include <OvmfPlatforms.h>
@@ -29,7 +29,7 @@ UplInitialization (
   )
 {
   EFI_FIRMWARE_VOLUME_HEADER        *UplFv;
-  PLD_SERIAL_PORT_INFO              *Serial;
+  // PLD_SERIAL_PORT_INFO              *Serial;
   ACPI_BOARD_INFO                   *AcpiBoardInfo;
   UINT16                            HostBridgeDevId;
   UINTN                             Pmba;
@@ -58,14 +58,14 @@ UplInitialization (
       ASSERT (FALSE);
   }
 
-
+/*
   Serial = BuildGuidHob (&gPldSerialPortInfoGuid, sizeof (PLD_SERIAL_PORT_INFO));
   Serial->BaudRate = PcdGet32 (PcdSerialBaudRate);
   Serial->RegisterBase = PcdGet64 (PcdSerialRegisterBase);
   Serial->RegisterWidth = (UINT8) PcdGet32 (PcdSerialRegisterStride);
   Serial->Revision = 1;
   Serial->UseMmio = PcdGetBool (PcdSerialUseMmio);
-
+*/
 
   AcpiBoardInfo = BuildGuidHob (&gUefiAcpiBoardInfoGuid, sizeof (ACPI_BOARD_INFO));
   AcpiBoardInfo->PcieBaseAddress = PcdGet64 (PcdPciExpressBaseAddress);
